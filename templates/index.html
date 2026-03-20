@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>스토리 암기 변환기</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div class="container">
+    <h1>스토리 암기 변환기</h1>
+    <form method="POST">
+        <label>과목 선택</label>
+        <select name="subject">
+            {% for s in subjects %}
+            <option value="{{ s[1] }}">{{ s[1] }}</option>
+            {% endfor %}
+        </select>
+        <textarea name="text" placeholder="암기할 개념 입력"></textarea>
+        <button>스토리텔링 시작</button>
+    </form>
+    <a href="/subjects">과목 관리</a>
+</div>
+</body>
+</html>

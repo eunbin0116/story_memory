@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>과목 관리</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div class="container">
+    <h1>과목 관리</h1>
+    <form method="POST">
+        <input name="name" placeholder="과목 이름">
+        <button>추가</button>
+    </form>
+    <ul>
+        {% for s in subjects %}
+        <li>
+            {{ s[1] }}
+            <a href="/delete/{{ s[0] }}">삭제</a>
+        </li>
+        {% endfor %}
+    </ul>
+    <a href="/">메인으로</a>
+</div>
+</body>
+</html>

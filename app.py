@@ -23,37 +23,34 @@ def init_db():
 init_db()
 
 def call_ai(subject, text):
-    prompt = f"""
-과목: {subject}
+    prompt = f"""과목: {subject}
 암기할 내용: {text}
 
 위 내용을 기억하기 쉽게 재미있는 스토리로 만들어줘.
-스토리는 3~5문장으로 작성해줘.
+수학은 무관한 내용 붙여서 말고 그냥 개념 가지고 이해하기 쉽게 설명해줘
+한국사는 무슨 일이 있었는지 이해할 수 있게.
+영어는 단어 뜻을 금방 외울 수 있게 이야기로만 채우지 말고
+스토리는 3문장 정도로 너무 길지 않게 작성해줘.
 JSON 형식으로만 답해줘. 코드블록 없이 순수 JSON만:
 {{
   "story": "여기에 스토리"
-}}
-"""
+}}"""
+
     res = requests.post(
-        "https://api.x.ai/v1/chat/completions",
+        "https://api.cohere.com/v2/chat",
         headers={
-            "Authorization": f"Bearer {os.getenv('XAI_API_KEY')}",
+            "Authorization": f"Bearer {os.getenv('COHERE_API_KEY')}",
             "Content-Type": "application/json"
         },
         json={
-            "model": "grok-4-1-fast",
-            "max_tokens": 1000,
-            "stream": False,
-            "messages": [
-                {"role": "system", "content": "You are a helpful assistant."},
-                {"role": "user", "content": prompt}
-            ]
+            "model": "command-r-08-2024",
+            "messages": [{"role": "user", "content": prompt}]
         }
     )
 
     print("API 응답:", res.json())
 
-    raw = res.json()["choices"][0]["message"]["content"]
+    raw = res.json()["message"]["content"][0]["text"]
     raw = re.sub(r"```json|```", "", raw).strip()
     return json.loads(raw)
 
